@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<!-- Spring MVC beans mainly  -->
+
+	<mvc:annotation-driven />
+	
+
+	<bean class="com.codepipes.wizard.screens.other.About" scope="request">
+	</bean>
+	
+	<bean class="com.codepipes.wizard.screens.other.Welcome" scope="request">
+	</bean>
+	
+	<!-- Data object for all settings (one per user session) -->
+	
+	<bean id="settings" class="com.codepipes.wizard.model.VirtualMachineSettings" scope="session">
+	</bean>
+	
+	
+	<!-- Start of Wizard steps -->
+	
+	<bean id="nameStep" class="com.codepipes.wizard.screens.wizard.NameStep" scope="request">
+		<property name="settings" ref="settings" />
+		<property name="next" ref="osStep" />
+	</bean>
+	
+	<bean id="osStep" class="com.codepipes.wizard.screens.wizard.OperatingSystemStep" scope="request">
+		<property name="settings" ref="settings" />
+		<property name="next" ref="cpuStep" />
+	</bean>
+	
+	<bean id="cpuStep" class="com.codepipes.wizard.screens.wizard.ProcessorsStep" scope="request">
+		<property name="settings" ref="settings" />
+		<property name="next" ref="memoryStep" />
+	</bean>
+	
+	
+	<bean id="memoryStep" class="com.codepipes.wizard.screens.wizard.MemoryStep" scope="request">
+		<property name="settings" ref="settings" />
+		<property name="next" ref="hdStep" />
+	</bean> 
+	
+	<bean id="hdStep" class="com.codepipes.wizard.screens.wizard.HardDisksStep" scope="request">
+		<property name="settings" ref="settings" />
+	    <property name="next" ref="summaryStep" /> 
+	</bean> 
+	
+	
+	<bean id="summaryStep" class="com.codepipes.wizard.screens.wizard.SummaryStep" scope="request">
+		<property name="settings" ref="settings" />
+		<property name="vmCreator" ref="vmCreator" />
+	</bean> 
+	
+	<!-- end of Wizard steps -->
+
+	<!-- freemarker config -->
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="default_encoding">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+
+</beans>
