@@ -6,7 +6,7 @@
 
 This repository holds the code mentioned in the Codefresh blog post "Using Docker from Maven and Maven from Docker"
 
-It is consists of 4 individual projects mentioned in the article
+It consists of 4 individual projects mentioned in the article
 
 1. A Java project that uses the [Maven spotify plugin](01-using-spotify-plugin/pom.xml#L184)
 1. A Java project that uses the [Fabric8 Maven plugin](02-using-fabric8-plugin/pom.xml#L183) (also runs integration tests)
@@ -43,7 +43,7 @@ This command will
 To build the project and run unit tests
 ```
 cd 03-multistage
-docker built -t my-java-app .
+docker build -t my-java-app .
 ```
 
 This command will 
@@ -52,7 +52,7 @@ This command will
 
 ### Multi-stage build (with Codefresh)
 
-Create a codefresh account and use the [provided build yaml file](codefresh.yml).
+[Create a Codefresh account](https://codefresh.io/docs/docs/getting-started/create-a-codefresh-account/) and use the [provided build yaml file](codefresh.yml).
 
 ```
 version: '1.0'
@@ -90,7 +90,7 @@ steps:
 ```
 
 
-Once build it will
+Once build this [Codefresh YAML](https://codefresh.io/docs/docs/codefresh-yaml/what-is-the-codefresh-yaml/) will
 
 1. Create a multi-stage Docker image with the war file (based on Tomcat) also running unit tests
 1. Create a Maven image that holds the integration tests
