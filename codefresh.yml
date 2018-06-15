@@ -1,0 +1,34 @@
+version: '1.0'
+steps:
+  build_image:
+    type: build
+    description: Building the image...
+    image_name: docker-maven-comparison
+    working_directory: ./04-codefresh
+    tag: develop
+  build_image_with_tests:
+    type: build
+    description: Building the Test image...
+    image_name: maven-integration-tests
+    working_directory: ./04-codefresh
+    dockerfile: Dockerfile.testing
+  integration_tests:
+    type: composition
+    title: Launching QA environment
+    description: Temporary test environment
+    working_directory: ${{main_clone}}
+    composition:
+      version: '2'
+      services:
+        app:
+          image: ${{build_image}}
+          ports:
+           - 8080
+    composition_candidates:
+      test_service: 
+        image: ${{build_image_with_tests}}
+        links:
+          - app
+        command: bash -c '/usr/bin/wait-for-it.sh -t 20 app:8080 -- mvn verify -Dserver.host=app'
+      
+     
