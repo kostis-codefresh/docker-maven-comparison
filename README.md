@@ -1,6 +1,7 @@
 # Using Docker from Maven and Maven from Docker
 
 
+
 ![Docker plus Maven](docker-plus-maven.jpg)
 
 [Codefresh status](http://codefresh.io): [![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=kostis-codefresh&repoName=docker-maven-comparison&branch=master&pipelineName=basic&accountName=kostis-codefresh&type=cf-2)]( https://g.codefresh.io/repositories/kostis-codefresh/docker-maven-comparison/builds?filter=trigger:build;branch:master;service:5b17f311f38e9275624153a3~basic)
